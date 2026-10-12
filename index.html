@@ -1,1 +1,254 @@
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>الحصاحيصا مول</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#ff6b35;--pd:#e85a2a;--s:#2c3e50;--d:#1a1a2e;--g:#6c757d;--b:#e9ecef;--sh:0 4px 20px rgba(0,0,0,.08)}
+body{font-family:'Cairo',sans-serif;background:#f5f7fa;color:var(--s);line-height:1.6}
+.c{max-width:1280px;margin:0 auto;padding:0 20px}
+a{text-decoration:none;color:inherit;cursor:pointer;transition:.3s}
+ul{list-style:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+.pg{display:none}.pg.on{display:block}
+.tb{background:var(--d);color:#fff;padding:10px 0;font-size:14px}
+.tbc{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.ti{display:flex;gap:20px}.ti span{display:flex;align-items:center;gap:6px}.ti i{color:var(--p)}
+.tl{display:flex;gap:20px}.tl a{display:flex;align-items:center;gap:6px;color:#ddd}.tl a:hover{color:var(--p)}
+.hd{background:#fff;padding:18px 0;box-shadow:var(--sh);position:sticky;top:0;z-index:100}
+.hc{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:10px;color:var(--p)}
+.lg i{font-size:34px}.lg h1{font-size:22px;font-weight:900;color:var(--s)}.lg span{font-size:11px;color:var(--g)}
+.sb{flex:1;max-width:500px;display:flex;background:#f8f9fa;border:2px solid var(--b);border-radius:50px;overflow:hidden}
+.sb input{flex:1;padding:12px 20px;border:none;background:transparent;font-family:inherit;outline:none}
+.sb button{background:var(--p);color:#fff;padding:0 22px}
+.ha{display:flex;gap:10px}
+.ab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 12px;border-radius:10px;font-size:12px;color:var(--s);position:relative}
+.ab i{font-size:18px}.ab:hover{color:var(--p);background:rgba(255,107,53,.08)}
+.cc{position:absolute;top:0;left:5px;background:var(--p);color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.mt{display:none;font-size:22px}
+.nv{background:#fff;border-top:1px solid var(--b)}
+.nv ul{display:flex;gap:5px;padding:5px 0}
+.nv a{display:flex;align-items:center;gap:6px;padding:12px 18px;font-weight:600;font-size:14px;border-radius:8px}
+.nv a:hover,.nv a.on{color:var(--p);background:rgba(255,107,53,.08)}
+.hr{background:linear-gradient(135deg,#1a1a2e,#2c3e50);padding:60px 0;position:relative;overflow:hidden}
+.hr::before{content:'';position:absolute;top:-50%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,107,53,.3),transparent 70%);border-radius:50%}
+.hrc{display:grid;grid-template-columns:1.2fr 1fr;align-items:center;gap:40px;position:relative;z-index:1}
+.ht .bg{display:inline-block;background:rgba(255,107,53,.2);color:var(--p);padding:6px 16px;border-radius:50px;font-size:13px;font-weight:600;margin-bottom:15px;border:1px solid rgba(255,107,53,.3)}
+.ht h2{font-size:42px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:15px}
+.ht h2 span{color:var(--p)}
+.ht p{font-size:17px;color:#b8c1cc;margin-bottom:25px;max-width:500px}
+.hbt{display:flex;gap:12px;flex-wrap:wrap}
+.bt{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:13px 28px;border-radius:50px;font-weight:700;font-size:15px;border:none;font-family:inherit}
+.btp{background:var(--p);color:#fff;box-shadow:0 8px 20px rgba(255,107,53,.4)}
+.btp:hover{background:var(--pd);transform:translateY(-3px)}
+.bto{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3)}
+.bto:hover{background:#fff;color:var(--s)}
+.him{display:flex;align-items:center;justify-content:center;position:relative}
+.hcir{width:300px;height:300px;background:linear-gradient(135deg,var(--p),#ff9a56);border-radius:50%;position:absolute;animation:pl 3s ease-in-out infinite}
+@keyframes pl{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.05);opacity:1}}
+.him i{font-size:130px;color:#fff;position:relative;z-index:1}
+.cat{padding:60px 0}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:15px}
+.sh h2{font-size:26px;font-weight:900;position:relative;padding-right:18px}
+.sh h2::before{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:5px;height:28px;background:var(--p);border-radius:3px}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px}
+.cc2{background:#fff;padding:28px 18px;border-radius:16px;text-align:center;box-shadow:var(--sh);border:2px solid transparent}
+.cc2:hover{transform:translateY(-6px);border-color:var(--p)}
+.ci{width:65px;height:65px;background:rgba(255,107,53,.1);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.ci i{font-size:28px;color:var(--p)}
+.cc2:hover .ci{background:var(--p)}.cc2:hover .ci i{color:#fff}
+.cc2 h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.cc2 span{font-size:13px;color:var(--g)}
+.pr{padding:20px 0 60px}
+.ft{display:flex;gap:8px;margin-bottom:25px;flex-wrap:wrap;justify-content:center}
+.fb{padding:9px 20px;background:#fff;border:2px solid var(--b);border-radius:50px;font-weight:600;font-size:13px;font-family:inherit}
+.fb:hover{border-color:var(--p);color:var(--p)}
+.fb.on{background:var(--p);color:#fff;border-color:var(--p)}
+.pgg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.pc{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--sh);position:relative;transition:.3s}
+.pc:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(255,107,53,.2)}
+.pbd{position:absolute;top:12px;right:12px;background:var(--p);color:#fff;padding:5px 12px;border-radius:50px;font-size:11px;font-weight:700;z-index:2}
+.pbd.nw{background:#28a745}.pbd.bs{background:#ffc107;color:#000}
+.pim{height:200px;background:#f0f0f0;overflow:hidden;position:relative}
+.pim img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.pc:hover .pim img{transform:scale(1.1)}
+.pac{position:absolute;left:12px;top:50%;transform:translateY(-50%) translateX(-70px);display:flex;flex-direction:column;gap:8px;opacity:0;transition:.4s;z-index:2}
+.pc:hover .pac{transform:translateY(-50%) translateX(0);opacity:1}
+.pac button{width:38px;height:38px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--s);box-shadow:0 4px 10px rgba(0,0,0,.1);font-size:14px}
+.pac button:hover{background:var(--p);color:#fff}
+.pi{padding:16px}
+.pcg{font-size:12px;color:var(--p);font-weight:600}
+.pi h3{font-size:15px;font-weight:700;margin:6px 0}
+.rt{display:flex;align-items:center;gap:3px;margin-bottom:10px;font-size:12px}
+.rt i{color:#ffc107}.rt span{color:var(--g);margin-right:4px}
+.prc{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prc .cu{font-size:18px;font-weight:900;color:var(--p)}
+.prc .ol{font-size:13px;color:var(--g);text-decoration:line-through}
+.atc{width:100%;padding:11px;background:var(--s);color:#fff;border-radius:10px;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
+.atc:hover{background:var(--p)}
+.fs{background:#fff;padding:50px 0;border-top:1px solid var(--b)}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:25px}
+.fc2{text-align:center;padding:15px}
+.fc2 i{font-size:36px;color:var(--p);margin-bottom:12px}
+.fc2 h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.fc2 p{font-size:13px;color:var(--g)}
+.mf{background:var(--d);color:#b8c1cc;padding:50px 0 0;margin-top:0}
+.fgr{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:30px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+.fl{display:flex;align-items:center;gap:10px;margin-bottom:15px;color:var(--p)}
+.fl i{font-size:28px}.fl h2{color:#fff;font-size:20px;font-weight:900}
+.fcl p{font-size:13px;line-height:1.8;margin-bottom:15px}
+.fcl h3{color:#fff;font-size:16px;font-weight:700;margin-bottom:15px}
+.fcl ul li{margin-bottom:10px}
+.fcl ul li a{font-size:13px}
+.fcl ul li a:hover{color:var(--p)}
+.sl{display:flex;gap:8px;margin-top:12px}
+.sl a{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.sl a:hover{background:var(--p)}
+.nl{display:flex;background:rgba(255,255,255,.08);border-radius:50px;overflow:hidden;margin-top:12px}
+.nl input{flex:1;padding:12px 18px;background:transparent;border:none;outline:none;color:#fff;font-family:inherit;font-size:13px}
+.nl button{background:var(--p);color:#fff;padding:0 18px}
+.fbt{display:flex;justify-content:space-between;align-items:center;padding:20px 0;flex-wrap:wrap;gap:12px}
+.fbt p{font-size:13px}
+.pm{display:flex;gap:12px;font-size:22px}
+.ap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px 15px;background:linear-gradient(135deg,#1a1a2e,#2c3e50);position:relative;overflow:hidden}
+.ac{background:#fff;border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:100%;max-width:450px;padding:40px 30px;position:relative;z-index:1}
+.al{display:flex;flex-direction:column;align-items:center;margin-bottom:25px;text-align:center}
+.ali{width:70px;height:70px;background:linear-gradient(135deg,var(--p),#ff9a56);border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;box-shadow:0 10px 25px rgba(255,107,53,.4)}
+.ali i{font-size:32px;color:#fff}
+.al h2{font-size:22px;font-weight:900}
+.al p{font-size:13px;color:var(--g)}
+.at{font-size:20px;font-weight:700;margin-bottom:5px;text-align:center}
+.as{font-size:13px;color:var(--g);text-align:center;margin-bottom:25px}
+.fm{margin-bottom:16px}
+.fm label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.iw{position:relative}
+.iw input{width:100%;padding:12px 42px;border:2px solid var(--b);border-radius:10px;font-family:inherit;font-size:14px;background:#f8f9fa;outline:none}
+.iw input:focus{border-color:var(--p);background:#fff;box-shadow:0 0 0 4px rgba(255,107,53,.1)}
+.iw .ir{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--g);font-size:14px;pointer-events:none}
+.tp{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--g);font-size:14px;padding:4px}
+.tp:hover{color:var(--p)}
+.fo{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px;font-size:13px}
+.rm{display:flex;align-items:center;gap:6px;color:var(--g);cursor:pointer}
+.rm input{width:16px;height:16px;accent-color:var(--p)}
+.fl2{color:var(--p);font-weight:600}
+.abt{width:100%;padding:13px;background:var(--p);color:#fff;border-radius:10px;font-weight:700;font-size:15px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 20px rgba(255,107,53,.3)}
+.abt:hover{background:var(--pd);transform:translateY(-2px)}
+.dv{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--g);font-size:12px}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:var(--b)}
+.sa{display:flex;gap:10px;margin-bottom:20px}
+.sab{flex:1;padding:11px;border:2px solid var(--b);border-radius:10px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:600;font-size:13px;background:#fff;font-family:inherit}
+.sab:hover{border-color:var(--p);color:var(--p)}
+.sab.google i{color:#db4437}.sab.facebook i{color:#1877f2}
+.asw{text-align:center;font-size:13px;color:var(--g)}
+.asw a{color:var(--p);font-weight:700}
+.cbg{display:flex;align-items:flex-start;gap:8px;margin-bottom:20px;font-size:12px;color:var(--g)}
+.cbg input{margin-top:3px;width:16px;height:16px;accent-color:var(--p);flex-shrink:0}
+.bh{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);color:#fff;padding:8px 16px;border-radius:50px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.2);z-index:10;font-family:inherit}
+.bh:hover{background:var(--p)}
+.ts{position:fixed;bottom:25px;left:25px;background:#28a745;color:#fff;padding:14px 22px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.2);display:flex;align-items:center;gap:10px;font-weight:600;z-index:9999;transform:translateY(150px);opacity:0;transition:.4s}
+.ts.on{transform:translateY(0);opacity:1}
+.ts.er{background:#dc3545}
+.uw{display:flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(40,167,69,.15);border-radius:50px;color:#4ade80;font-weight:600;font-size:12px}
+.lb{background:transparent;border:2px solid rgba(255,107,53,.4);color:var(--p);padding:6px 14px;border-radius:50px;font-weight:600;font-size:12px;font-family:inherit}
+.lb:hover{background:var(--p);color:#fff}
+@media(max-width:900px){.hrc{grid-template-columns:1fr;text-align:center}.ht p{margin:0 auto 25px}.hbt{justify-content:center}.him{order:-1}.hcir{width:240px;height:240px}.him i{font-size:100px}.fgr{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.tbc{flex-direction:column;text-align:center}.ti{flex-direction:column;gap:5px}.hc{gap:12px}.sb{order:3;flex-basis:100%;max-width:100%}.ha{margin-right:auto}.mt{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:#f8f9fa}.nv ul{flex-direction:column;gap:0;max-height:0;overflow:hidden;transition:max-height .4s;padding:0}.nv ul.on{max-height:500px;padding:10px 0}.nv a{padding:12px 14px}.ht h2{font-size:28px}.hcir{width:200px;height:200px}.him i{font-size:80px}.sh h2{font-size:22px}.cg{grid-template-columns:repeat(2,1fr);gap:12px}.pgg{grid-template-columns:repeat(2,1fr);gap:15px}.pim{height:150px}.pac{position:static;transform:none;opacity:1;flex-direction:row;justify-content:center;margin-top:8px;padding:0 12px;gap:6px}.fgr{grid-template-columns:1fr;text-align:center}.fl,.sl{justify-content:center}.fbt{flex-direction:column;text-align:center}.ac{padding:35px 22px}}
+@media(max-width:480px){.lg h1{font-size:16px}.ab span:not(.cc){display:none}.ht h2{font-size:24px}.hbt{flex-direction:column}.bt{width:100%}.pgg{grid-template-columns:1fr}.fg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="page-home" class="pg on">
+<div class="tb"><div class="c"><div class="tbc">
+<div class="ti"><span><i class="fas fa-phone"></i> +249 123 456 789</span><span><i class="fas fa-envelope"></i> info@hashmool.com</span></div>
+<div class="tl" id="topLinks">
+<a onclick="go('login')"><i class="fas fa-user"></i> دخول</a>
+<a onclick="go('register')"><i class="fas fa-user-plus"></i> حساب جديد</a>
+</div>
+</div></div></div>
+<header class="hd"><div class="c"><div class="hc">
+<div class="lg" onclick="go('home')"><i class="fas fa-shopping-bag"></i><div><h1>الحصاحيصا مول</h1><span>سوقك الإلكتروني الأول</span></div></div>
+<div class="sb"><input placeholder="ابحث عن منتج..."><button><i class="fas fa-search"></i></button></div>
+<div class="ha">
+<a class="ab"><i class="far fa-heart"></i><span>المفضلة</span></a>
+<a class="ab"><i class="fas fa-shopping-cart"></i><span>السلة</span><span class="cc" id="cartCount">0</span></a>
+</div>
+<button class="mt" id="mt"><i class="fas fa-bars"></i></button>
+</div></div></header>
+<nav class="nv"><div class="c"><ul id="nm">
+<li><a class="on" onclick="go('home')"><i class="fas fa-home"></i> الرئيسية</a></li>
+<li><a onclick="scr()"><i class="fas fa-th-large"></i> الأقسام</a></li>
+<li><a onclick="scr()"><i class="fas fa-fire"></i> العروض</a></li>
+<li><a onclick="scr()"><i class="fas fa-star"></i> الأكثر مبيعاً</a></li>
+<li><a onclick="scr()"><i class="fas fa-tags"></i> الجديد</a></li>
+<li><a><i class="fas fa-headset"></i> اتصل بنا</a></li>
+</ul></div></nav>
+<section class="hr"><div class="c"><div class="hrc">
+<div class="ht">
+<span class="bg">عروض حصرية</span>
+<h2>مرحباً بك في <span>الحصاحيصا مول</span></h2>
+<p>تسوق أفضل المنتجات بأفضل الأسعار مع توصيل سريع لجميع أنحاء السودان</p>
+<div class="hbt">
+<a class="bt btp" onclick="scr()">تسوق الآن</a>
+<a class="bt bto" onclick="go('register')">سجل معنا</a>
+</div>
+</div>
+<div class="him"><div class="hcir"></div><i class="fas fa-shopping-basket"></i></div>
+</div></div></section>
+<section class="cat"><div class="c">
+<div class="sh"><h2>تسوق حسب الأقسام</h2></div>
+<div class="cg">
+<div class="cc2"><div class="ci"><i class="fas fa-mobile-alt"></i></div><h3>إلكترونيات</h3><span>120 منتج</span></div>
+<div class="cc2"><div class="ci"><i class="fas fa-tshirt"></i></div><h3>أزياء</h3><span>85 منتج</span></div>
+<div class="cc2"><div class="ci"><i class="fas fa-couch"></i></div><h3>المنزل</h3><span>64 منتج</span></div>
+<div class="cc2"><div class="ci"><i class="fas fa-spa"></i></div><h3>عناية</h3><span>42 منتج</span></div>
+<div class="cc2"><div class="ci"><i class="fas fa-futbol"></i></div><h3>رياضة</h3><span>38 منتج</span></div>
+<div class="cc2"><div class="ci"><i class="fas fa-book"></i></div><h3>كتب</h3><span>56 منتج</span></div>
+</div>
+</div></section>
+<section class="pr" id="products"><div class="c">
+<div class="sh"><h2>جميع المنتجات</h2></div>
+<div class="ft">
+<button class="fb on" data-f="all">الكل</button>
+<button class="fb" data-f="electronics">إلكترونيات</button>
+<button class="fb" data-f="fashion">أزياء</button>
+<button class="fb" data-f="home">المنزل</button>
+<button class="fb" data-f="sports">رياضة</button>
+</div>
+<div class="pgg" id="productsGrid"></div>
+</div></section>
+<section class="fs"><div class="c"><div class="fg">
+<div class="fc2"><i class="fas fa-truck"></i><h3>توصيل سريع</h3><p>لجميع أنحاء السودان</p></div>
+<div class="fc2"><i class="fas fa-shield-alt"></i><h3>دفع آمن</h3><p>حماية كاملة</p></div>
+<div class="fc2"><i class="fas fa-undo"></i><h3>إرجاع مجاني</h3><p>خلال 14 يوم</p></div>
+<div class="fc2"><i class="fas fa-headset"></i><h3>دعم 24/7</h3><p>فريق جاهز</p></div>
+</div></div></section>
+<footer class="mf"><div class="c">
+<div class="fgr">
+<div class="fcl">
+<div class="fl"><i class="fas fa-shopping-bag"></i><h2>الحصاحيصا مول</h2></div>
+<p>سوقك الإلكتروني الأول في السودان بأفضل المنتجات والأسعار.</p>
+<div class="sl"><a><i class="fab fa-facebook-f"></i></a><a><i class="fab fa-twitter"></i></a><a><i class="fab fa-instagram"></i></a><a><i class="fab fa-whatsapp"></i></a></div>
+</div>
+<div class="fcl"><h3>روابط سريعة</h3><ul><li><a>من نحن</a></li><li><a>اتصل بنا</a></li><li><a>الشروط</a></li><li><a>الخصوصية</a></li></ul></div>
+<div class="fcl"><h3>خدمة العملاء</h3><ul><li><a>تتبع طلبك</a></li><li><a>الإرجاع</a></li><li><a>الدفع</a></li><li><a>الشحن</a></li></ul></div>
+<div class="fcl"><h3>النشرة البريدية</h3><p>اشترك ليصلك كل جديد</p>
+<form class="nl" onsubmit="event.preventDefault();toast('تم الاشتراك!')"><input type="email" placeholder="بريدك" required><button><i class="fas fa-paper-plane"></i></button></form>
+</div>
+</div>
+<div class="fbt"><p>&copy; 2024 الحصاحيصا مول</p><div class="pm"><i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i></div></div>
+</div></footer>
+</div>
+<div id="page-login" class="pg"><div class="ap">
+<button class="bh" onclick="go('home')"><i class="fas fa-arrow-right"></i> الرئيسية</button>
+<div class="ac">
+<div class="al"><div class="ali"><i class="fas fa-shopping-bag"></i></div><h2>الحصاحيصا مول</h2><p>سوقك الإلكتروني الأول</p></div>
+<h3 class="at">تسجيل الدخول</h3>
+<p class="as">أدخل بياناتك للمتابعة</p>
+<form onsubmit="login(event)">
+<div class="fm"><label>البريد الإلكتروني</label><div class="iw"><input type="email" id="lEmail" placeholder="example@email.com" required><i class="fas fa-envelope ir"></i></div></div>
+<div class="fm"><label>كلمة المرور</label><div class="iw"><input type="password" id="lPass" placeholder="أدخل كلمة المرور" required><i class="fas fa-lock ir"></i><button type="button" class="tp" onclick="tp('lPass',this)"><i class="fas fa-eye"></i></but
