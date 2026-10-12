@@ -251,4 +251,87 @@ button{cursor:pointer;border:none;background:none;font-family:inherit}
 <p class="as">أدخل بياناتك للمتابعة</p>
 <form onsubmit="login(event)">
 <div class="fm"><label>البريد الإلكتروني</label><div class="iw"><input type="email" id="lEmail" placeholder="example@email.com" required><i class="fas fa-envelope ir"></i></div></div>
-<div class="fm"><label>كلمة المرور</label><div class="iw"><input type="password" id="lPass" placeholder="أدخل كلمة المرور" required><i class="fas fa-lock ir"></i><button type="button" class="tp" onclick="tp('lPass',this)"><i class="fas fa-eye"></i></but
+<div class="fm"><label>كلمة المرور</label><div class="iw"><input type="password" id="lPass" placeholder="أدخل كلمة المرور" required><i class="fas fa-lock ir"></i><button type="button" class="tp" onclick="tp('lPass',this)"><i class="fas fa-eye"></i></button></div></div>
+<div class="fo"><label class="rm"><input type="checkbox"><span>تذكرني</span></label><a class="fl2">نسيت كلمة المرور؟</a></div>
+<button type="submit" class="abt"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</button>
+</form>
+<div class="dv">أو سجل باستخدام</div>
+<div class="sa">
+<button class="sab google" onclick="toast('Google')"><i class="fab fa-google"></i> Google</button>
+<button class="sab facebook" onclick="toast('Facebook')"><i class="fab fa-facebook-f"></i> Facebook</button>
+</div>
+<p class="asw">ليس لديك حساب؟ <a onclick="go('register')">إنشاء حساب</a></p>
+</div>
+</div></div>
+<div id="page-register" class="pg"><div class="ap">
+<button class="bh" onclick="go('home')"><i class="fas fa-arrow-right"></i> الرئيسية</button>
+<div class="ac">
+<div class="al"><div class="ali"><i class="fas fa-shopping-bag"></i></div><h2>الحصاحيصا مول</h2><p>سوقك الإلكتروني الأول</p></div>
+<h3 class="at">إنشاء حساب جديد</h3>
+<p class="as">انضم إلينا واستمتع بأفضل العروض</p>
+<form onsubmit="reg(event)">
+<div class="fm"><label>الاسم الكامل</label><div class="iw"><input type="text" id="rName" placeholder="أدخل اسمك" required><i class="fas fa-user ir"></i></div></div>
+<div class="fm"><label>البريد الإلكتروني</label><div class="iw"><input type="email" id="rEmail" placeholder="example@email.com" required><i class="fas fa-envelope ir"></i></div></div>
+<div class="fm"><label>رقم الهاتف</label><div class="iw"><input type="tel" id="rPhone" placeholder="+249 123 456 789" required><i class="fas fa-phone ir"></i></div></div>
+<div class="fm"><label>كلمة المرور</label><div class="iw"><input type="password" id="rPass" placeholder="6 أحرف على الأقل" required><i class="fas fa-lock ir"></i><button type="button" class="tp" onclick="tp('rPass',this)"><i class="fas fa-eye"></i></button></div></div>
+<div class="fm"><label>تأكيد كلمة المرور</label><div class="iw"><input type="password" id="rPass2" placeholder="أعد الكتابة" required><i class="fas fa-lock ir"></i><button type="button" class="tp" onclick="tp('rPass2',this)"><i class="fas fa-eye"></i></button></div></div>
+<div class="cbg"><input type="checkbox" id="terms" required><label for="terms">أوافق على <a>الشروط والأحكام</a></label></div>
+<button type="submit" class="abt"><i class="fas fa-user-plus"></i> إنشاء الحساب</button>
+</form>
+<div class="dv">أو سجل باستخدام</div>
+<div class="sa">
+<button class="sab google" onclick="toast('Google')"><i class="fab fa-google"></i> Google</button>
+<button class="sab facebook"<button class="sab facebook" onclick="toast('Facebook')"><i class="fab fa-facebook-f"></i> Facebook</button>
+</div>
+<p class="asw">لديك حساب؟ <a onclick="go('login')">تسجيل الدخول</a></p>
+</div>
+</div></div>
+
+<!-- Toast -->
+<div class="ts" id="toast">
+<i class="fas fa-check-circle" id="toastIcon"></i>
+<span id="toastMsg">تم بنجاح!</span>
+</div>
+
+<script>
+const products=[
+{id:1,name:"هيدفون بلوتوث",cat:"electronics",catN:"إلكترونيات",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",price:"25,000",old:"35,000",rate:4,rev:45,bg:"خصم 30%",bgt:""},
+{id:2,name:"ساعة ذكية",cat:"electronics",catN:"إكسسوارات",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",price:"18,500",old:null,rate:5,rev:32,bg:"جديد",bgt:"nw"},
+{id:3,name:"لابتوب للأعمال",cat:"electronics",catN:"إلكترونيات",img:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&q=80",price:"150,000",old:"175,000",rate:4,rev:18,bg:"خصم 15%",bgt:""},
+{id:4,name:"كاميرا احترافية",cat:"electronics",catN:"تصوير",img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&q=80",price:"220,000",old:null,rate:4,rev:27,bg:"",bgt:""},
+{id:5,name:"حذاء رياضي",cat:"sports",catN:"رياضة",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",price:"12,000",old:null,rate:5,rev:89,bg:"الأكثر مبيعاً",bgt:"bs"},
+{id:6,name:"هاتف ذكي",cat:"electronics",catN:"إلكترونيات",img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80",price:"95,000",old:null,rate:4,rev:52,bg:"",bgt:""},
+{id:7,name:"قميص قطني",cat:"fashion",catN:"أزياء",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80",price:"8,500",old:"12,000",rate:4,rev:38,bg:"خصم 30%",bgt:""},
+{id:8,name:"حقيبة جلدية",cat:"fashion",catN:"أزياء",img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=80",price:"22,000",old:null,rate:5,rev:61,bg:"جديد",bgt:"nw"},
+{id:9,name:"طقم أواني",cat:"home",catN:"المنزل",img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=500&q=80",price:"35,000",old:"45,000",rate:4,rev:24,bg:"خصم 20%",bgt:""},
+{id:10,name:"مصباح LED",cat:"home",catN:"المنزل",img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&q=80",price:"6,500",old:null,rate:4,rev:41,bg:"",bgt:""},
+{id:11,name:"سجادة صلاة",cat:"home",catN:"المنزل",img:"https://images.unsplash.com/photo-1584286595398-a59f21d313f5?w=500&q=80",price:"9,000",old:"13,000",rate:5,rev:73,bg:"الأكثر مبيعاً",bgt:"bs"},
+{id:12,name:"دمبل رياضي",cat:"sports",catN:"رياضة",img:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80",price:"15,500",old:null,rate:4,rev:19,bg:"",bgt:""}
+];
+let cartCount=0;
+
+function renderProducts(f='all'){
+const g=document.getElementById('productsGrid');if(!g)return;
+const list=f==='all'?products:products.filter(p=>p.cat===f);
+g.innerHTML=list.map(p=>{
+const st=Array(5).fill(0).map((_,i)=>i<p.rate?'<i class="fas fa-star"></i>':'<i class="far fa-star"></i>').join('');
+const bh=p.bg?`<div class="pbd ${p.bgt}">${p.bg}</div>`:'';
+const oh=p.old?`<span class="ol">${p.old} ج.س</span>`:'';
+return `<div class="pc">${bh}<div class="pim"><img src="${p.img}" alt="${p.name}" loading="lazy"><div class="pac"><button onclick="toast('أضيف للمفضلة ❤️')"><i class="far fa-heart"></i></button><button onclick="addCart('${p.name}')"><i class="fas fa-shopping-cart"></i></button></div></div><div class="pi"><span class="pcg">${p.catN}</span><h3>${p.name}</h3><div class="rt">${st}<span>(${p.rev})</span></div><div class="prc"><span class="cu">${p.price} ج.س</span>${oh}</div><button class="atc" onclick="addCart('${p.name}')"><i class="fas fa-shopping-cart"></i> أضف للسلة</button></div></div>`;
+}).join('');
+}
+function addCart(n){cartCount++;document.getElementById('cartCount').textContent=cartCount;toast(`✅ أضيف "${n}"`);}
+document.querySelectorAll('.fb').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');renderProducts(b.dataset.f);});});
+function go(p){document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));const t=document.getElementById('page-'+p);if(t){t.classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}}
+function scr(){const s=document.getElementById('products');if(s)s.scrollIntoView({behavior:'smooth'});}
+function tp(id,btn){const i=document.getElementById(id);const ic=btn.querySelector('i');if(i.type==='password'){i.type='text';ic.classList.replace('fa-eye','fa-eye-slash');}else{i.type='password';ic.classList.replace('fa-eye-slash','fa-eye');}}
+let tT;function toast(m,e=false){const t=document.getElementById('toast');const tm=document.getElementById('toastMsg');const ti=document.getElementById('toastIcon');if(!t)return;tm.textContent=m;if(e){t.classList.add('er');ti.className='fas fa-times-circle';}else{t.classList.remove('er');ti.className='fas fa-check-circle';}t.classList.add('on');clearTimeout(tT);tT=setTimeout(()=>t.classList.remove('on'),3000);}
+function login(e){e.preventDefault();const em=document.getElementById('lEmail').value.trim();const ps=document.getElementById('lPass').value;const re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;if(!re.test(em)){toast('❌ البريد غير صحيح',true);return;}if(ps.length<6){toast('❌ كلمة المرور قصيرة',true);return;}const sv=localStorage.getItem('hasmool_user');let u;if(sv){const s=JSON.parse(sv);u=s.email===em?s:{name:em.split('@')[0],email:em};}else{u={name:em.split('@')[0],email:em};}localStorage.setItem('hasmool_user',JSON.stringify(u));toast('✅ تم تسجيل الدخول!');setTimeout(()=>{upUI();go('home');},800);}
+function reg(e){e.preventDefault();const n=document.getElementById('rName').value.trim();const em=document.getElementById('rEmail').value.trim();const ph=document.getElementById('rPhone').value.trim();const ps=document.getElementById('rPass').value;const p2=document.getElementById('rPass2').value;const re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;if(n.length<3){toast('❌ الاسم قصير',true);return;}if(!re.test(em)){toast('❌ البريد غير صحيح',true);return;}if(ph.length<9){toast('❌ الهاتف غير صحيح',true);return;}if(ps.length<6){toast('❌ كلمة المرور قصيرة',true);return;}if(ps!==p2){toast('❌ كلمتا المرور مختلفتان',true);return;}localStorage.setItem('hasmool_user',JSON.stringify({name:n,email:em,phone:ph}));toast('🎉 تم إنشاء الحساب!');setTimeout(()=>{upUI();go('home');},800);}
+function upUI(){const d=localStorage.getItem('hasmool_user');const tl=document.getElementById('topLinks');if(!tl)return;if(d){const u=JSON.parse(d);tl.innerHTML=`<span class="uw"><i class="fas fa-user-circle"></i> ${u.name}</span><button class="lb" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</button>`;}else{tl.innerHTML=`<a onclick="go('login')"><i class="fas fa-user"></i> دخول</a><a onclick="go('register')"><i class="fas fa-user-plus"></i> حساب جديد</a>`;}}
+function logout(){localStorage.removeItem('hasmool_user');toast('👋 تم الخروج');upUI();}
+const mt=document.getElementById('mt');const nm=document.getElementById('nm');if(mt&&nm){mt.addEventListener('click',()=>{nm.classList.toggle('on');const i=mt.querySelector('i');i.classList.toggle('fa-bars');i.classList.toggle('fa-times');});}
+document.addEventListener('DOMContentLoaded',()=>{renderProducts('all');upUI();});
+</script>
+</body>
+</html>
