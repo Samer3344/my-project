@@ -943,7 +943,7 @@ console.log("✅ تم حفظ الطلب في Firestore");
 } catch(err) {
 console.error("❌ فشل حفظ الطلب", err);
 }
-https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)
+window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
 localStorage.setItem('hasmool_lastOrder', Date.now().toString());
 cart = [];
 saveCart();
