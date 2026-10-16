@@ -941,8 +941,10 @@ date: firebase.firestore.FieldValue.serverTimestamp()
 });
 console.log("✅ تم حفظ الطلب في Firestore");
 } catch(err) {
-console.error("❌ فشل حفظ الطلب", err);
+    console.error("❌ فشل حفظ الطلب", err);
+    alert("❌ فشل حفظ الطلب: " + err.message);
 }
+
 window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
 localStorage.setItem('hasmool_lastOrder', Date.now().toString());
 cart = [];
