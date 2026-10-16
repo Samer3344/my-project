@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة تحكم الطلبات - الحصاحيصا مول</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body { font-family: 'Cairo', sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; }
+h1 { text-align: center; color: #333; }
+.container { max-width: 1200px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: none; }
+.login-container { max-width: 400px; margin: 80px auto; background: white; padding: 40px 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+.login-container h2 { color: #f39c12; margin-top: 0; }
+.login-container i.login-icon { font-size: 50px; color: #f39c12; margin-bottom: 15px; }
+.login-container input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
+.login-container input:focus { border-color: #f39c12; outline: none; }
+.login-container button { width: 100%; padding: 12px; background-color: #f39c12; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; font-family: inherit; }
+.login-container button:hover { background-color: #e67e22; }
+#loginError { color: #e74c3c; font-size: 13px; margin-bottom: 10px; display: none; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px; text-align: right; border-bottom: 1px solid #ddd; }
+th { background-color: #f39c12; color: white; }
+tr:hover { background-color: #f1f1f1; }
+.status-pending { color: #e67e22; font-weight: bold; }
+.status-shipped { color: #3498db; font-weight: bold; }
+.status-delivered { color: #2ecc71; font-weight: bold; }
+.status-accepted { color: #9b59b6; font-weight: bold; }
+.status-rejected { color: #e74c3c; font-weight: bold; }
+button { padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; background-color: #3498db; color: white; font-family: inherit; }
+button:hover { background-color: #2980b9; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
+.modal-content h2 { margin-top: 0; color: #f39c12; }
+.modal-content p { margin: 5px 0; }
+.close-btn { background-color: #e74c3c; float: left; margin-top: 10px; }
+.receipt-img { max-width: 100%; margin-top: 10px; border: 1px solid #ddd; border-radius: 5px; }
+.status-select { padding: 5px; border-radius: 5px; border: 1px solid #ddd; font-family: inherit; }
+.filter-bar { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; align-items: center; flex-wrap: wrap; background: #f8f9fa; padding: 15px; border-radius: 10px; }
+.filter-bar select, .filter-bar input { padding: 8px; border-radius: 5px; border: 1px solid #ddd; font-family: inherit; font-size: 14px; }
+.filter-bar button { padding: 8px 15px; font-weight: bold; }
+#summaryBox { display: none; background-color: #e8f8f5; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #1abc9c; }
+#summaryBox h3 { color: #16a085; margin-top: 0; }
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
+.summary-item { background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.summary-item .label { font-size: 13px; color: #666; margin-bottom: 5px; }
+.summary-item .value { font-size: 22px; font-weight: 900; color: #16a085; }
+#logoutBtn { position: fixed; top: 20px; left: 20px; background-color: #e74c3c; padding: 10px 20px; font-weight: bold; z-index: 1001; }
+.upload-section { text-align: center; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; }
+.upload-section button { background-color: #9b59b6; padding: 10px 20px; font-weight: bold; font-size: 14px; }
+.upload-section button:hover { background-color: #8e44ad; }
+#uploadStatus { margin-top: 10px; font-weight: bold; }
+@media print {
+    body * { visibility: hidden; }
+    #detailsModal, #detailsModal * { visibility: visible; }
+    #detailsModal { position: absolute; left: 0; top: 0; width: 100%; background: white; }
+    button, .close-btn, select { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+    <div id="loginScreen" class="login-container">
+        <i class="fas fa-lock login-icon"></i>
+        <h2>تسجيل الدخول</h2>
+        <p style="color:#666; margin-bottom:20px;">أدخل بياناتك للوصول للوحة التحكم</p>
+        <div id="loginError"></div>
+        <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
+        <input type="password" id="loginPassword" placeholder="كلمة المرور">
+        <button onclick="doLogin()">🔓 تسجيل الدخول</button>
+    </div>
+
+    <button id="logoutBtn" onclick="doLogout()" style="display:none;">🚪 خروج</button>
+
+    <div class="container" id="adminPanel">
+        <h1>📦 لوحة تحكم الطلبات</h1>
+
+        <div class="upload-section">
+            <button onclick="uploadProductsToFirebase()">📤 رفع المنتجات الحالية إلى Firebase</button>
+            <button onclick="showProducts()" style="background-color: #3498db; margin-top: 10px;">📋 عرض المنتجات</button>
+            <button onclick="openProductForm()" style="background-color: #27ae60; margin-top: 10px;">➕ إضافة منتج جديد</button>
+<div id="productsList" style="text-align: right; margin-top: 15px;"></div>
+            <p id="uploadStatus"></p>
+        </div>
+
+        <div class="filter-bar">
+            <label for="monthFilter" style="font-weight: bold;">اختر الشهر:</label>
+            <select id="monthFilter"></select>
+            <button onclick="filterByMonth()" style="background-color: #f39c12;">📊 عرض التقرير</button>
+            <button onclick="resetFilter()" style="background-color: #3498db;">🔄 عرض الكل</button>
+            <button onclick="printSummary()" style="background-color: #9b59b6;">🖨️ طباعة التقرير</button>
+        </div>
+
+        <div id="summaryBox"></div>
+
+        <div id="loading">جاري تحميل الطلبات...</div>
+        <table id="ordersTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>رقم الطلب</th>
+                    <th>اسم العميل</th>
+                    <th>رقم الهاتف</th>
+                    <th>المدينة</th>
+                    <th>الإجمالي</th>
+                    <th>التاريخ</th>
+                    <th>الحالة</th>
+                    <th>إجراء</th>
+                </tr>
+            </thead>
+            <tbody id="ordersBody"></tbody>
+        </table>
+    </div>
+    <!-- نافذة إضافة/تعديل منتج -->
+<div id="productFormModal" class="modal">
+    <div class="modal-content">
+        <h2 id="productFormTitle">➕ إضافة منتج جديد</h2>
+        <div class="fm">
+            <label>اسم المنتج</label>
+            <input type="text" id="pName" placeholder="مثال: هيدفون بلوتوث" style="width:100%; padding:10px; border:2px solid #eee; border-radius:8px; font-family:inherit; margin-bottom:10px;">
+        </div>
+        <div class="fm">
+            <label>القسم</label>
+            <select id="pCat" style="width:100%; padding:10px; border:2px solid #eee; border-radius:8px; font-family:inherit; margin-bottom:10px;">
+                <option value="electronics|إلكترونيات">إلكترونيات</option>
+                <option value="fashion|أزياء">أزياء</option>
+                <option value="home|المنزل">المنزل</option>
+                <option value="sports|رياضة">رياضة</option>
+            </select>
+        </div>
+        <div class="fm">
+            <label>السعر (ج.س)</label>
+            <input type="number" id="pPrice" placeholder="مثال: 25000" style="width:100%; padding:10px; border:2px solid #eee; border-radius:8px; font-family:inherit; margin-bottom:10px;">
+        </div>
+        <div class="fm">
+            <label>السعر القديم (اختياري - للخصومات)</label>
+            <input type="number" id="pOld" placeholder="اتركه فاضي لو مفيش خصم" style="width:100%; padding:10px; border:2px solid #eee; border-radius:8px; font-family:inherit; margin-bottom:10px;">
+        </div>
+        <div class="fm">
+            <label>الوصف</label>
+            <textarea id="pDesc" placeholder="وصف مختصر للمنتج" style="width:100%; padding:10px; border:2px solid #eee; border-radius:8px; font-family:inherit; margin-bottom:10px; min-height:60px;"></textarea>
+        </div>
+        <div class="fm">
+            <label>صورة المنتج</label>
+            <input type="file" id="pImage" accept="image/*" style="width:100%; padding:10px; border:2px solid #eee; border-radius:8px; font-family:inherit; margin-bottom:10px;">
+            <div id="pImagePreview" style="text-align:center; margin-top:10px;"></div>
+        </div>
+        <input type="hidden" id="pEditId" value="">
+        <button onclick="saveProduct()" style="background-color: #27ae60; width:100%; padding:12px; font-weight:bold; font-size:15px;">💾 حفظ المنتج</button>
+        <button class="close-btn" onclick="closeProductForm()">إغلاق</button>
+    </div>
+</div>
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <h2>تفاصيل الطلب</h2>
+            <div id="modalDetails"></div>
+            <button class="close-btn" onclick="closeModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+    <script>
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCENw5zgX4Tsea2hj_Mf9Enk9WQGU_n1AI",
+  authDomain: "my-project-c016c.firebaseapp.com",
+  projectId: "my-project-c016c",
+  storageBucket: "my-project-c016c.firebasestorage.app",
+  messagingSenderId: "601246648770",
+  appId: "1:601246648770:web:eb3baf12ff089b737b2e5b",
+  measurementId: "G-301LRHF3H2"
+};
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        let allOrders = [];
+        let filteredOrders = [];
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('logoutBtn').style.display = 'block';
+                loadOrders();
+            } else {
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'none';
+            }
+        });
+
+        function doLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (!email || !password) {
+                errorDiv.textContent = '❌ من فضلك أدخل الإيميل وكلمة المرور';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => { errorDiv.style.display = 'none'; })
+                .catch(err => {
+                    console.error(err);
+                    errorDiv.textContent = '❌ الإيميل أو كلمة المرور غير صحيحة';
+                    errorDiv.style.display = 'block';
+                });
+        }
+
+        function doLogout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                auth.signOut();
+            }
+        }
+
+        async function uploadProductsToFirebase() {
+            const statusEl = document.getElementById('uploadStatus');
+            statusEl.textContent = '⏳ جاري رفع المنتجات...';
+            statusEl.style.color = '#f39c12';
+
+            const productsList = [
+                {id:1,name:"هيدفون بلوتوث",cat:"electronics",catN:"إلكترونيات",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",price:25000,old:35000,rate:4,rev:45,bg:"خصم 30%",bgt:"",desc:"هيدفون بلوتوث عالي الجودة بصوت نقي وبطارية تدوم طويلاً."},
+                {id:2,name:"ساعة ذكية",cat:"electronics",catN:"إكسسوارات",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",price:18500,old:null,rate:5,rev:32,bg:"جديد",bgt:"nw",desc:"ساعة ذكية بشاشة AMOLED."},
+                {id:3,name:"لابتوب للأعمال",cat:"electronics",catN:"إلكترونيات",img:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&q=80",price:150000,old:175000,rate:4,rev:18,bg:"خصم 15%",bgt:"",desc:"لابتوب احترافي بمعالج قوي."},
+                {id:4,name:"كاميرا احترافية",cat:"electronics",catN:"تصوير",img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&q=80",price:220000,old:null,rate:4,rev:27,bg:"",bgt:"",desc:"كاميرا DSLR احترافية."},
+                {id:5,name:"حذاء رياضي",cat:"sports",catN:"رياضة",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",price:12000,old:null,rate:5,rev:89,bg:"الأكثر مبيعاً",bgt:"bs",desc:"حذاء رياضي مريح وخفيف."},
+                {id:6,name:"هاتف ذكي",cat:"electronics",catN:"إلكترونيات",img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&q=80",price:95000,old:null,rate:4,rev:52,bg:"",bgt:"",desc:"هاتف ذكي بكاميرا عالية الدقة."},
+                {id:7,name:"قميص قطني",cat:"fashion",catN:"أزياء",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80",price:8500,old:12000,rate:4,rev:38,bg:"خصم 30%",bgt:"",desc:"قميص قطني مريح بتصميم عصري."},
+                {id:8,name:"حقيبة جلدية",cat:"fashion",catN:"أزياء",img:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&q=80",price:22000,old:null,rate:5,rev:61,bg:"جديد",bgt:"nw",desc:"حقيبة جلدية أنيقة."},
+                {id:9,name:"طقم أواني",cat:"home",catN:"المنزل",img:"https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=500&q=80",price:35000,old:45000,rate:4,rev:24,bg:"خصم 20%",bgt:"",desc:"طقم أواني طبخ عالي الجودة."},
+                {id:10,name:"مصباح LED",cat:"home",catN:"المنزل",img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&q=80",price:6500,old:null,rate:4,rev:41,bg:"",bgt:"",desc:"مصباح LED موفر للطاقة."},
+                {id:11,name:"سجادة صلاة",cat:"home",catN:"المنزل",img:"https://images.unsplash.com/photo-1584286595398-a59f21d313f5?w=500&q=80",price:9000,old:13000,rate:5,rev:73,bg:"الأكثر مبيعاً",bgt:"bs",desc:"سجادة صلاة مريحة بتصميم إسلامي."},
+                {id:12,name:"دمبل رياضي",cat:"sports",catN:"رياضة",img:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=500&q=80",price:15500,old:null,rate:4,rev:19,bg:"",bgt:"",desc:"دمبل رياضي لتمارين القوة."}
+            ];
+
+            try {
+                const batch = db.batch();
+                productsList.forEach(p => {
+                    const docRef = db.collection('products').doc(String(p.id));
+                    batch.set(docRef, p);
+                });
+                await batch.commit();
+                statusEl.textContent = '✅ تم رفع ' + productsList.length + ' منتج بنجاح!';
+                statusEl.style.color = '#27ae60';
+            } catch(err) {
+                console.error(err);
+                statusEl.textContent = '❌ فشل الرفع: ' + err.message;
+                statusEl.style.color = '#e74c3c';
+            }
+        }
+
+        async function loadOrders() {
+            try {
+                const snapshot = await db.collection('orders').orderBy('date', 'desc').get();
+                allOrders = [];
+
+                snapshot.forEach(doc => {
+                    const order = doc.data();
+                    order.id = doc.id;
+                    allOrders.push(order);
+                });
+
+                filteredOrders = [...allOrders];
+                renderTable(filteredOrders);
+                populateMonthFilter();
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('ordersTable').style.display = 'table';
+
+                if (snapshot.empty) {
+                    document.getElementById('loading').innerText = "لا توجد طلبات حالياً.";
+                }
+            } catch (error) {
+                console.error("خطأ في جلب الطلبات:", error);
+                document.getElementById('loading').innerText = "حدث خطأ أثناء جلب الطلبات.";
+            }
+        }
+
+        function renderTable(orders) {
+            const tbody = document.getElementById('ordersBody');
+            tbody.innerHTML = '';
+
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px; color:#999;">لا توجد طلبات مطابقة</td></tr>';
+                return;
+            }
+
+            orders.forEach(order => {
+                const dateStr = order.date ? order.date.toDate().toLocaleString('ar-EG') : 'غير محدد';
+                
+                let statusClass = 'status-pending';
+                let statusText = 'قيد الانتظار';
+                if (order.status === 'shipped') { statusClass = 'status-shipped'; statusText = 'تم الشحن'; }
+                if (order.status === 'delivered') { statusClass = 'status-delivered'; statusText = 'تم التوصيل'; }
+                if (order.status === 'accepted') { statusClass = 'status-accepted'; statusText = 'مقبول'; }
+                if (order.status === 'rejected') { statusClass = 'status-rejected'; statusText = 'مرفوض'; }
+
+                const row = `
+                    <tr>
+                        <td>${order.num || '-'}</td>
+                        <td>${order.name || '-'}</td>
+                        <td>${order.phone || '-'}</td>
+                        <td>${order.city || '-'}</td>
+                        <td>${(order.total || 0).toLocaleString()} ج.س</td>
+                        <td>${dateStr}</td>
+                        <td class="${statusClass}">${statusText}</td>
+                        <td><button onclick="showDetails('${order.id}')">عرض</button></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function populateMonthFilter() {
+            const select = document.getElementById('monthFilter');
+            select.innerHTML = '';
+            const months = new Set();
+            
+            allOrders.forEach(order => {
+                if (order.date) {
+                    const d = order.date.toDate();
+                    const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                    months.add(key);
+                }
+            });
+
+            const sortedMonths = Array.from(months).sort().reverse();
+            
+            if (sortedMonths.length === 0) {
+                select.innerHTML = '<option value="">لا توجد بيانات</option>';
+                return;
+            }
+
+            const monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            
+            sortedMonths.forEach(m => {
+                const [year, month] = m.split('-');
+                const option = document.createElement('option');
+                option.value = m;
+                option.textContent = monthNames[parseInt(month) - 1] + ' ' + year;
+                select.appendChild(option);
+            });
+        }
+
+        function filterByMonth() {
+            const selected = document.getElementById('monthFilter').value;
+            if (!selected) return;
+
+            filteredOrders = allOrders.filter(order => {
+                if (!order.date) return false;
+                const d = order.date.toDate();
+                const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                return key === selected;
+            });
+
+            renderTable(filteredOrders);
+            showSummary(selected);
+        }
+
+        function showSummary(monthKey) {
+            const [year, month] = monthKey.split('-');
+            const monthNames = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+            const monthName = monthNames[parseInt(month) - 1] + ' ' + year;
+
+            const totalOrders = filteredOrders.length;
+            const totalSales = filteredOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+            const delivered = filteredOrders.filter(o => o.status === 'delivered').length;
+            const rejected = filteredOrders.filter(o => o.status === 'rejected').length;
+            const pending = filteredOrders.filter(o => o.status === 'pending').length;
+
+            const box = document.getElementById('summaryBox');
+            box.style.display = 'block';
+            box.innerHTML = `
+                <h3>📊 تقرير شهر ${monthName}</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="label">إجمالي الطلبات</div>
+                        <div class="value">${totalOrders}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="label">إجمالي المبيعات</div>
+                        <div class="value">${totalSales.toLocaleString()} ج.س</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="label">تم التوصيل</div>
+                        <div class="value" style="color:#2ecc71;">${delivered}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="label">قيد الانتظار</div>
+                        <div class="value" style="color:#e67e22;">${pending}</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="label">مرفوضة</div>
+                        <div class="value" style="color:#e74c3c;">${rejected}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetFilter() {
+            filteredOrders = [...allOrders];
+            renderTable(filteredOrders);
+            document.getElementById('summaryBox').style.display = 'none';
+            document.getElementById('monthFilter').selectedIndex = 0;
+        }
+
+        function printSummary() {
+            window.print();
+        }
+
+        function showDetails(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const dateStr = order.date ? order.date.toDate().toLocaleString('ar-EG') : 'غير محدد';
+            
+            let itemsHtml = '<ul>';
+            if (order.items && Array.isArray(order.items)) {
+                order.items.forEach(item => {
+                    itemsHtml += `<li>${item.name} (الكمية: ${item.qty || 1}) - ${(item.price || 0).toLocaleString()} ج.س</li>`;
+                });
+            }
+            itemsHtml += '</ul>';
+
+            let receiptHtml = '';
+            if (order.receipt) {
+                receiptHtml = `<p><strong>صورة الإشعار:</strong></p><img src="${order.receipt}" class="receipt-img" alt="إشعار الدفع">`;
+            }
+
+            const statusOptions = `
+                <p><strong>تحديث الحالة:</strong></p>
+                <select id="statusSelect" class="status-select" onchange="updateStatus('${order.id}', this.value)">
+                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>قيد الانتظار</option>
+                    <option value="accepted" ${order.status === 'accepted' ? 'selected' : ''}>مقبول (قيد التجهيز)</option>
+                    <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>تم الشحن</option>
+                    <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>تم التوصيل</option>
+                    <option value="rejected" ${order.status === 'rejected' ? 'selected' : ''}>مرفوض (المنتج غير متوفر)</option>
+                </select>
+                <br><br>
+                <button onclick="notifyCustomer('${order.phone}', '${order.name}', '${order.num}', document.getElementById('statusSelect').value)" style="background-color: #25D366; padding: 10px; font-weight: bold; width: 100%;">📲 إخطار العميل عبر واتساب</button>
+            `;
+
+            const detailsHtml = `
+                <p><strong>رقم الطلب:</strong> ${order.num || '-'}</p>
+                <p><strong>الاسم:</strong> ${order.name || '-'}</p>
+                <p><strong>الهاتف:</strong> ${order.phone || '-'}</p>
+                <p><strong>المدينة:</strong> ${order.city || '-'}</p>
+                <p><strong>العنوان:</strong> ${order.addr || '-'}</p>
+                <p><strong>اسم البنك:</strong> ${order.bankName || '-'}</p>
+                <p><strong>رقم العملية:</strong> ${order.transactionId || '-'}</p>
+                <p><strong>التاريخ:</strong> ${dateStr}</p>
+                <p><strong>المنتجات:</strong></p>
+                ${itemsHtml}
+                <p><strong>الإجمالي:</strong> ${(order.total || 0).toLocaleString()} ج.س</p>
+                ${statusOptions}
+                <hr>
+                ${receiptHtml}
+                <br><br>
+                <button onclick="printInvoice()" style="background-color: #f39c12; padding: 10px; font-weight: bold; width: 100%;">🖨️ طباعة الفاتورة</button>
+            `;
+
+            document.getElementById('modalDetails').innerHTML = detailsHtml;
+            document.getElementById('detailsModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('detailsModal').style.display = 'none';
+        }
+
+        function printInvoice() {
+            window.print();
+        }
+
+        async function updateStatus(orderId, newStatus) {
+            try {
+                await db.collection('orders').doc(orderId).update({ status: newStatus });
+                alert('✅ تم تحديث حالة الطلب بنجاح');
+                loadOrders();
+            } catch (error) {
+                console.error("خطأ في تحديث الحالة:", error);
+                alert('❌ فشل تحديث الحالة');
+            }
+        }
+
+        function notifyCustomer(phone, name, orderNum, currentStatus) {
+            let formattedPhone = phone.trim();
+            if (formattedPhone.startsWith('0')) formattedPhone = '249' + formattedPhone.substring(1);
+            else if (!formattedPhone.startsWith('249')) formattedPhone = '249' + formattedPhone;
+
+            let message = '';
+            if (currentStatus === 'accepted') message = `مرحباً ${name}، تم قبول طلبك رقم ${orderNum} وهو قيد التجهيز الآن. سيتم التواصل معك قريباً. شكراً لثقتك بنا.`;
+            else if (currentStatus === 'shipped') message = `مرحباً ${name}، تم شحن طلبك رقم ${orderNum} وسيصل إليك قريباً. شكراً لتعاملك معنا.`;
+            else if (currentStatus === 'delivered') message = `مرحباً ${name}، تم توصيل طلبك رقم ${orderNum} بنجاح. نتمنى أن تكون راضياً عن خدمتنا. شكراً لك!`;
+            else if (currentStatus === 'rejected') message = `مرحباً ${name}، نعتذر منك بشدة، للأسف بعض المنتجات في طلبك رقم ${orderNum} غير متوفرة حالياً. سيتم التواصل معك في أقرب وقت لترتيب الأمور.`;
+            else message = `مرحباً ${name}، بخصوص طلبك رقم ${orderNum}، طلبك قيد المراجعة وسيتم التواصل معك قريباً. شكراً لك.`;
+
+            const url = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+        // ===== عرض المنتجات مرتبة حسب ID =====
+async function showProducts() {
+    const box = document.getElementById('productsList');
+    box.innerHTML = '⏳ جاري تحميل المنتجات...';
+
+    try {
+        const snapshot = await db.collection('products').orderBy('id', 'asc').get();
+        
+        if (snapshot.empty) {
+            box.innerHTML = '<p style="color:#999;">لا توجد منتجات حالياً.</p>';
+            return;
+        }
+
+        let html = '<table style="margin-top:10px;"><thead><tr><th>#</th><th>الاسم</th><th>القسم</th><th>السعر</th></tr></thead><tbody>';
+        snapshot.forEach(doc => {
+            const p = doc.data();
+            html += `<tr>
+                <td>${p.id || '-'}</td>
+                <td>${p.name || '-'}</td>
+                <td>${p.catN || '-'}</td>
+                <td>${(p.price || 0).toLocaleString()} ج.س</td>
+            </tr>`;
+        });
+        html += '</tbody></table>';
+        box.innerHTML = html;
+    } catch (err) {
+        console.error(err);
+        box.innerHTML = '<p style="color:#e74c3c;">❌ فشل تحميل المنتجات: ' + err.message + '</p>';
+    }
+}
+// ===== عرض المنتجات في جدول =====
+async function showProducts() {
+    const box = document.getElementById('productsList');
+    box.innerHTML = '⏳ جاري تحميل المنتجات...';
+
+    try {
+        const snapshot = await db.collection('products').orderBy('id', 'asc').get();
+        
+        if (snapshot.empty) {
+            box.innerHTML = '<p style="color:#999;">لا توجد منتجات حالياً.</p>';
+            return;
+        }
+
+        let html = '<table style="margin-top:10px;"><thead><tr><th>#</th><th>الاسم</th><th>القسم</th><th>السعر</th><th>إجراء</th></tr></thead><tbody>';
+        snapshot.forEach(doc => {
+            const p = doc.data();
+            html += `<tr>
+                <td>${p.id || '-'}</td>
+                <td>${p.name || '-'}</td>
+                <td>${p.catN || '-'}</td>
+                <td>${(p.price || 0).toLocaleString()} ج.س</td>
+                <td>
+                    <button onclick="editProduct('${doc.id}')" style="background-color:#f39c12; font-size:12px; padding:5px 10px;">✏️ تعديل</button>
+                    <button onclick="deleteProduct('${doc.id}')" style="background-color:#e74c3c; font-size:12px; padding:5px 10px;">🗑️ حذف</button>
+                </td>
+            </tr>`;
+        });
+        html += '</tbody></table>';
+        box.innerHTML = html;
+    } catch (err) {
+        console.error(err);
+        box.innerHTML = '<p style="color:#e74c3c;">❌ فشل تحميل المنتجات: ' + err.message + '</p>';
+    }
+}
+
+// ===== فتح نافذة إضافة منتج جديد =====
+function openProductForm() {
+    document.getElementById('productFormTitle').textContent = '➕ إضافة منتج جديد';
+    document.getElementById('pName').value = '';
+    document.getElementById('pCat').value = 'electronics|إلكترونيات';
+    document.getElementById('pPrice').value = '';
+    document.getElementById('pOld').value = '';
+    document.getElementById('pDesc').value = '';
+    document.getElementById('pImage').value = '';
+    document.getElementById('pImagePreview').innerHTML = '';
+    document.getElementById('pEditId').value = '';
+    document.getElementById('productFormModal').style.display = 'flex';
+}
+
+// ===== إغلاق النافذة =====
+function closeProductForm() {
+    document.getElementById('productFormModal').style.display = 'none';
+}// ===== حفظ المنتج (إضافة أو تعديل) =====
+async function saveProduct() {
+    const editId = document.getElementById('pEditId').value;
+    const name = document.getElementById('pName').value.trim();
+    const catValue = document.getElementById('pCat').value;
+    const price = parseFloat(document.getElementById('pPrice').value);
+    const oldPrice = document.getElementById('pOld').value ? parseFloat(document.getElementById('pOld').value) : null;
+    const desc = document.getElementById('pDesc').value.trim();
+    const imageFile = document.getElementById('pImage').files[0];
+
+    // التحقق من البيانات
+    if (name.length < 3) { alert('❌ اسم المنتج قصير جداً'); return; }
+    if (!price || price <= 0) { alert('❌ من فضلك أدخل سعر صحيح'); return; }
+
+    const [cat, catN] = catValue.split('|');
+
+    try {
+        let imageBase64 = null;
+
+        // لو فيه صورة جديدة مرفوعة
+        if (imageFile) {
+            if (!imageFile.type.startsWith('image/')) {
+                alert('❌ من فضلك اختر صورة فقط');
+                return;
+            }
+            if (imageFile.size > 1024 * 1024) {
+                alert('❌ حجم الصورة كبير جداً (الحد الأقصى 1 ميجا)');
+                return;
+            }
+            imageBase64 = await fileToBase64(imageFile);
+        }
+
+        if (editId) {
+            // تعديل منتج موجود
+            const updateData = { name, cat, catN, price, old: oldPrice, desc };
+            if (imageBase64) updateData.img = imageBase64;
+            await db.collection('products').doc(editId).update(updateData);
+            alert('✅ تم تعديل المنتج بنجاح');
+        } else {
+            // إضافة منتج جديد
+            if (!imageBase64) { alert('❌ من فضلك اختر صورة للمنتج'); return; }
+
+            // نجيب أعلى ID عشان نضيف الجديد بعده
+            const snapshot = await db.collection('products').orderBy('id', 'desc').limit(1).get();
+            let newId = 1;
+            if (!snapshot.empty) {
+                newId = (snapshot.docs[0].data().id || 0) + 1;
+            }
+
+            await db.collection('products').doc(String(newId)).set({
+                id: newId,
+                name, cat, catN,
+                price,
+                old: oldPrice,
+                rate: 5,
+                rev: 0,
+                bg: '',
+                bgt: '',
+                desc,
+                img: imageBase64
+            });
+            alert('✅ تم إضافة المنتج بنجاح (رقم ' + newId + ')');
+        }
+
+        closeProductForm();
+        showProducts();
+    } catch (err) {
+        console.error(err);
+        alert('❌ فشل الحفظ: ' + err.message);
+    }
+}
+
+// ===== تعديل منتج =====
+async function editProduct(docId) {
+    try {
+        const doc = await db.collection('products').doc(docId).get();
+        if (!doc.exists) { alert('❌ المنتج مش موجود'); return; }
+        const p = doc.data();
+
+        document.getElementById('productFormTitle').textContent = '✏️ تعديل المنتج';
+        document.getElementById('pName').value = p.name || '';
+        document.getElementById('pCat').value = (p.cat || 'electronics') + '|' + (p.catN || 'إلكترونيات');
+        document.getElementById('pPrice').value = p.price || '';
+        document.getElementById('pOld').value = p.old || '';
+        document.getElementById('pDesc').value = p.desc || '';
+        document.getElementById('pImage').value = '';
+        document.getElementById('pEditId').value = docId;
+
+        // نعرض الصورة الحالية لو موجودة
+        if (p.img) {
+            document.getElementById('pImagePreview').innerHTML = '<img src="' + p.img + '" style="max-width:150px; border-radius:8px; margin-top:5px;">';
+        } else {
+            document.getElementById('pImagePreview').innerHTML = '';
+        }
+
+        document.getElementById('productFormModal').style.display = 'flex';
+    } catch (err) {
+        console.error(err);
+        alert('❌ فشل جلب المنتج: ' + err.message);
+    }
+}
+
+// ===== حذف منتج =====
+async function deleteProduct(docId) {
+    if (!confirm('هل أنت متأكد من حذف المنتج؟')) return;
+    try {
+        await db.collection('products').doc(docId).delete();
+        alert('✅ تم حذف المنتج بنجاح');
+        showProducts();
+    } catch (err) {
+        console.error(err);
+        alert('❌ فشل الحذف: ' + err.message);
+    }
+}
+
+// ===== دالة تحويل الصورة لـ Base64 =====
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.readAsDataURL(file);
+        r.onload = () => resolve(r.result);
+        r.onerror = (e) => reject(e);
+    });
+}
+    </script>
+</body>
+</html>
